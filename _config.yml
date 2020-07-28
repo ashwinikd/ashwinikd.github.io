@@ -22,7 +22,7 @@ title: Ashwini's Tech Journal
 email: ejournal@ashwini.tech
 description: >- # this means to ignore newlines until "baseurl:"
   Journal of things that I have done and learned during my playing around with servers,
-  networking systems and computers in general. Contains answers to "How did I do that few years back?" 
+  networking systems and computers in general. Repository of answers to "How did I do that few years back?" 
   questions that I keep on having.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://ashwinikd.github.io" # the base hostname & protocol for your site, e.g. http://example.com
