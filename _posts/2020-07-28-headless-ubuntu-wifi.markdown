@@ -11,7 +11,7 @@ The instructions below have been tested on Ubuntu 20.04 (Falcon) Server but shou
 We will be following these steps:
 
 1. Installing tools and utilities
-2. Finding the wirless interface name
+2. Finding the wireless interface name
 3. Scanning for the wireless connections
 4. Setting up WPA config file
 5. Connecting to the wireless network
