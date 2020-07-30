@@ -41,10 +41,10 @@ iwconfig
 
 This will give you output similar to following:
 
-```text
+<pre>
 enp4s0    no wireless extensions.
 
-wlp5s0    IEEE 802.11  ESSID:off/any  
+<b>wlp5s0</b>    IEEE 802.11  ESSID:off/any  
           Mode:Managed  Access Point: Not-Associated   Tx-Power=0 dBm
           Retry short limit:7   RTS thr:off   Fragment thr:off
           Power Management:on
@@ -52,7 +52,7 @@ wlp5s0    IEEE 802.11  ESSID:off/any
 lo        no wireless extensions.
 
 enp0s31f6  no wireless extensions.
-```
+</pre>
 
 Output shows us that the interface `wlp5s0` supports wireless connectivity. Next step is to scan the network.
 
@@ -62,7 +62,7 @@ sudo iw <interface> scan
 
 The output will be similar to following:
 
-```text
+<pre>
 ---- truncated ----
 BSS ab:cd:ef:01:23:45(on wlp5s0) -- associated
         last seen: 12274.418s [boottime]
@@ -73,9 +73,9 @@ BSS ab:cd:ef:01:23:45(on wlp5s0) -- associated
         signal: -36.00 dBm
         last seen: 1036 ms ago
         Information elements from Probe Response frame:
-        SSID: Uchiha_5G
+        <b>SSID: Uchiha_5G</b>
         Supported rates: 6.0* 9.0 12.0* 18.0 24.0* 36.0 48.0 54.0 
-        RSN:     * Version: 1
+        <b>RSN</b>:     * Version: 1
                  * Group cipher: CCMP
                  * Pairwise ciphers: CCMP
                  * Authentication suites: PSK
@@ -85,7 +85,7 @@ BSS ab:cd:ef:01:23:45(on wlp5s0) -- associated
                  * channel utilisation: 52/255
                  * available admission capacity: 0 [*32us]
 ---- truncated ----
-```
+</pre>
 
 The wireless network name will be mentioned under `SSID`. The `RSN` section signifies that the authentication
 is using WPA/WPA2 and Authentication suites is `PSK` which means Pre-Shared Key (a password). Now we create
