@@ -23,7 +23,7 @@ We will be installing `node_exporter` on the router which will provide us a lot 
 
 At the end of this post our dashboard will look something like this:
 
-TODO: Add picture of final dashboard here
+![Final Dashboard]({{ site.url }}/assets/router-series-1/dashboard.jpeg)
 
 ## Prerequisites
 
@@ -45,11 +45,15 @@ directory structure created:
   |- log
   |- run
 |- home
-  |- ashwini
+  |- user
 |- tmp
 </pre>
 
-TODO: add command for creating directory structure
+You can create the directory structure using following command. **(Change \<disk\> to the name of your disk.)**
+
+{% highlight bash %}
+mkdir -p /mnt/<disk>/{bin,etc/services,home/user,var/{log,run},tmp}
+{% endhighlight %}
 
 ## Installing node_exporter
 
@@ -59,7 +63,7 @@ build. I am grabbing the version 1.0.0.
 You can get to your router terminal via SSH and run following commands to get the exporter.  **(Change \<version\> with the version you want.)**
 
 {% highlight bash %}
-cd /mnt/<disk>/home/ashwini
+cd /mnt/<disk>/home/user
 wget https://github.com/prometheus/node_exporter/releases/download/v1.0.0/node_exporter-<version>.linux-armv5.tar.gz
 tar xzf node_exporter-<version>.linux-armv5.tar.gz
 mv node_exporter-<version>.linux-armv5/node_exporter /mnt/<disk>/bin/node_exporter
@@ -153,7 +157,7 @@ Restart prometheus and you are done with configuring the metric pull. Next is th
 
 ## Grafana Dashboard
 
-The panels have been created on Grafana v7.0.3. TODO: Add dashboard JSON here
+The panels have been created on Grafana v7.0.3. You can download the Dashboard JSON [here]({{ site.url }}/assets/router-series-1/dashboard.json).
 
 ### Uptime (Single Stat)
 
@@ -183,7 +187,7 @@ Current memory utilization in percentage.
 
 This will tell us the current download/upload speed over WAN (internet). This is tricky because you will have to know the interface name
 of WAN network for your router. For Asus Merlin the `ppp0` is the WAN interface. You will have to change value of `device` label in 
-the following PromQL queries.
+the following PromQL queries if you have a different router.
 
 {% highlight promql %}
 # Download speed
