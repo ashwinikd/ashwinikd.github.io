@@ -3,13 +3,15 @@ layout: post
 title:  "Monitoring your wireless router with Prometheus Node Exporter"
 date:   2020-07-30 16:14:42 +0530
 categories: monitoring router prometheus
+series: "router-monitoring"
 ---
 
-This is first in series of posts on monitoring your wireless router. In this post we will setup [node_exporter](https://github.com/prometheus/node_exporter) 
-on the router which will allow us to pull basic performance metrics. I have an [Asus RT-AC68U](https://www.asus.com/in/Networking/RTAC68U/) with
-[AsusWRT-Merlin](https://www.asuswrt-merlin.net/) firmware installed on it. This allows me to setup cron jobs and custom scripts on the router which 
-is required to setup the monitoring. You can check out the complete list of [additional features](https://www.asuswrt-merlin.net/features) that Merlin 
-firmware provides. The instructions here should work on other Asus routers with Meriln firmware but might need some modifications to work on DDWRT or Tomato.
+This is first in [series of posts]({{ site.url }}/series/router-monitoring) on monitoring your wireless router. In this post we will setup 
+[node_exporter](https://github.com/prometheus/node_exporter) on the router which will allow us to pull basic performance metrics. I have an 
+[Asus RT-AC68U](https://www.asus.com/in/Networking/RTAC68U/) with [AsusWRT-Merlin](https://www.asuswrt-merlin.net/) firmware installed on it. 
+This allows me to setup cron jobs and custom scripts on the router which is required to setup the monitoring. You can check out the complete 
+list of [additional features](https://www.asuswrt-merlin.net/features) that Merlin firmware provides. The instructions here should work on 
+other Asus routers with Meriln firmware but might need some modifications to work on DDWRT or Tomato.
 
 For pulling and persisting the metrics I am be using [Prometheus](https://prometheus.io) which is an open-source monitoring solution. I have it installed
 on a home server which is up 24x7 and connected to the router. A static IP is configured for the server which makes things convenient but the setup

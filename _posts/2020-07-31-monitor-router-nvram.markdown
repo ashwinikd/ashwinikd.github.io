@@ -2,9 +2,11 @@
 layout: post
 title:  "Monitoring NVRAM of your wireless router with Prometheus"
 categories: monitoring router prometheus
+date:   2020-07-31 20:37:42 +0530
+series: "router-monitoring"
 ---
 
-This is second in series of posts on monitoring your wireless router. In this post we will setup a script to extract the NVRAM usage 
+This is second in [series of posts]({{ site.url }}/series/router-monitoring) on monitoring your wireless router. In this post we will setup a script to extract the NVRAM usage 
 information and use node exporter to expose it to prometheus using text file collector.  Check [here]({% post_url 2020-07-30-router-series-1 %})
 for instructions on how to setup node exporter on your router.
 
@@ -48,7 +50,7 @@ directory structure created:
 You can create the directory structure using following command. **(Change \<disk\> to the name of your disk.)**
 
 {% highlight bash %}
-mkdir -p /mnt/<disk>/{bin,etc/services,home/user,lib/node_exporter,var/{log,run},tmp}
+mkdir -p /mnt/<disk>/{bin,etc/services,home/user,var/{log,run,lib/node_exporter},tmp}
 {% endhighlight %}
 
 ## Setting up the script
