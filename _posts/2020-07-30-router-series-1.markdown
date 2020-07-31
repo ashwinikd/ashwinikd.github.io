@@ -20,7 +20,6 @@ We will be installing `node_exporter` on the router which will provide us a lot 
 1. CPU utilization
 2. Memory usage
 3. Network activity
-4. Disk usage
 
 At the end of this post our dashboard will look something like this:
 
@@ -139,3 +138,128 @@ fi
 Thats it for the setup on the router end. Now we move on to configure Prometheus.
 
 ## Configuring Prometheus
+
+In your `scrape_configs` section add the section for router job. **(Change \<your_router_ip\> with correct IP.)**
+
+{% highlight yaml %}
+scrape_configs:
+  - job_name: router
+    static_configs:
+    - targets:
+      - '<your_router_ip>:9101'
+{% endhighlight %}
+
+Restart prometheus and you are done with configuring the metric pull. Next is the Grafana dashboard.
+
+## Grafana Dashboard
+
+The panels have been created on Grafana v7.0.3. TODO: Add dashboard JSON here
+
+### Uptime (Single Stat)
+
+This will give us the time since last router restart. Following is the PromQL:
+
+{% highlight promql %}
+time() - node_boot_time_seconds{job="router"}
+{% endhighlight %}
+
+### CPU Utilization (Single Stat & Chart)
+
+Average CPU utilization on the router over last 5 minutes.
+
+{% highlight promql %}
+1 - avg(irate(node_cpu_seconds_total{mode='idle', job="router"}[5m]))
+{% endhighlight %}
+
+### Memory Utilization (Single Stat)
+
+Current memory utilization in percentage.
+
+{% highlight promql %}
+1 - node_memory_MemFree_bytes{job="router"}/node_memory_MemTotal_bytes{job="router"}
+{% endhighlight %}
+
+### Internet Usage (Single Stat)
+
+This will tell us the current download/upload speed over WAN (internet). This is tricky because you will have to know the interface name
+of WAN network for your router. For Asus Merlin the `ppp0` is the WAN interface. You will have to change value of `device` label in 
+the following PromQL queries.
+
+{% highlight promql %}
+# Download speed
+irate(node_network_receive_bytes_total{job="router", device="ppp0"}[5m])
+
+# Upload Speed
+irate(node_network_transmit_bytes_total{job="router", device="ppp0"}[5m])
+{% endhighlight %}
+
+### Interface usage (Single Stat)
+
+If you wish to know the traffic over different connection modes like Ethernet, WiFi 5Gz or 2.4G channels you can use following queries. 
+Again the interface names used here apply to Asus router and your router might be designating different interfaces. Also note that 
+`IN` and `OUT` over here is from point of view of router. So an IN for router may be, depending on the interface, an upload from device. 
+Following are interface assignments for Asus routers:
+
+1. `vlan1` is Ethernet
+2. `eth1` is 2.4G WiFi channel
+3. `eth2` is 5G WiFi channel
+4. `ppp0` is WAN interface
+5. `tun<x><y>` are the VPN tunnel interfaces
+
+{% highlight promql %}
+# Ethernet IN
+irate(node_network_receive_bytes_total{job="router", device="vlan1"}[5m])
+
+# Ethernet OUT
+irate(node_network_transmit_bytes_total{job="router", device="vlan1"}[5m])
+
+# 5G IN
+irate(node_network_receive_bytes_total{job="router", device="eth2"}[5m])
+
+# 5G OUT
+irate(node_network_transmit_bytes_total{job="router", device="eth2"}[5m])
+
+# 2.4G IN
+irate(node_network_receive_bytes_total{job="router", device="eth1"}[5m])
+
+# 2.4G OUT
+irate(node_network_transmit_bytes_total{job="router", device="eth1"}[5m])
+
+# VPN IN
+irate(node_network_receive_bytes_total{job="router", device="tun11"}[5m])
+
+# VPN OUT
+irate(node_network_transmit_bytes_total{job="router", device="tun11"}[5m])
+{% endhighlight %}
+
+### Memory usage (Chart)
+
+Charts the memory usage in bytes and percentage over time.
+
+{% highlight promql %}
+# Free
+node_memory_MemFree_bytes{job="router"}
+
+# Total
+node_memory_MemTotal_bytes{job="router"}
+
+# Percentage used
+1 - node_memory_MemFree_bytes{job="router"}/node_memory_MemTotal_bytes{job="router"}
+{% endhighlight %}
+
+### Network traffic (Chart)
+
+Charts traffic over multiple network interfaces.
+
+{% highlight promql %}
+# IN
+rate(node_network_receive_bytes_total{job="router", device=~"vlan1|eth0|eth1|tun11"}[5m])
+
+# Total
+rate(node_network_receive_bytes_total{job="router", device=~"vlan1|eth0|eth1|tun11"}[5m])
+{% endhighlight %}
+
+## Conclusion
+
+Thats it! We have setup node exporter on our router, configured prometheus to pull the metrics and created a grafana
+dashboards to chart the metrics.
