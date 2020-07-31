@@ -34,6 +34,7 @@ remote_theme: lorepirri/cayman-blog
 show_downloads: false
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 
 collections:
   series:
