@@ -75,6 +75,10 @@ rm -rf node_exporter-<version>.linux-armv5*
 Check if `node_exporter` is working using this command. It should print out the version and build information on the console. If you get an error you probably 
 grabbed a build for wrong platform.
 
+{% highlight bash %}
+/mnt/<disk>/bin/node_exporter --version
+{% endhighlight %}
+
 Once the exporter is validated we need to configure the node_exporter to start on boot. First we create a service file `/mnt/<disk>/etc/services/node_exporter.service`
 with following content in it. This scripts checks if the exporter is already running by fetching the PID of `node_exporter`. If not running it will start the node_exporter
 in background.
